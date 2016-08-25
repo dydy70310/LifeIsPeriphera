@@ -1,0 +1,9 @@
+
+{
+    "variants": {
+        "direction=south": { "model": "lifeisperipheral:ChatInterface" },
+        "direction=north": { "model": "lifeisperipheral:ChatInterface", "y": 180 },
+        "direction=east":  { "model": "lifeisperipheral:ChatInterface", "y": 270 },
+        "direction=west":  { "model": "lifeisperipheral:ChatInterface", "y": 90}
+    }
+}

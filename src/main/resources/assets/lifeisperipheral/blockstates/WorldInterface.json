@@ -1,0 +1,9 @@
+
+{
+    "variants": {
+        "direction=south": { "model": "lifeisperipheral:WorldInterface" },
+        "direction=north": { "model": "lifeisperipheral:WorldInterface", "y": 180 },
+        "direction=east":  { "model": "lifeisperipheral:WorldInterface", "y": 270 },
+        "direction=west":  { "model": "lifeisperipheral:WorldInterface", "y": 90}
+    }
+}

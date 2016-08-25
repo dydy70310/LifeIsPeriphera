@@ -1,0 +1,9 @@
+
+{
+    "variants": {
+        "direction=south": { "model": "lifeisperipheral:AdvancedNoteBlock" },
+        "direction=north": { "model": "lifeisperipheral:AdvancedNoteBlock", "y": 180 },
+        "direction=east":  { "model": "lifeisperipheral:AdvancedNoteBlock", "y": 270 },
+        "direction=west":  { "model": "lifeisperipheral:AdvancedNoteBlock", "y": 90}
+    }
+}

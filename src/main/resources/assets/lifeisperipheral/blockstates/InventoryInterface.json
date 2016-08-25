@@ -1,0 +1,9 @@
+
+{
+    "variants": {
+        "direction=south": { "model": "lifeisperipheral:InventoryInterface" },
+        "direction=north": { "model": "lifeisperipheral:InventoryInterface", "y": 180 },
+        "direction=east":  { "model": "lifeisperipheral:InventoryInterface", "y": 270 },
+        "direction=west":  { "model": "lifeisperipheral:InventoryInterface", "y": 90}
+    }
+}

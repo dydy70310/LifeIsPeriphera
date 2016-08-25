@@ -1,0 +1,19 @@
+tile.EntityDetector.name=Entity Detector
+tile.AdvancedNoteBlock.name=Advanced NoteBlock
+tile.ChatInterface.name=Chat Interface
+tile.WorldInterface.name=World Interface
+tile.InvertoryInterface.name=Invertory Interface
+
+itemGroup.LifeIsPeripheral=Life Is Peripheral
+
+achievement.requires=Requires '%1$s'
+achievement.craftComputer=Computercraft, here we go !
+achievement.craftComputer.desc=LUA OMW
+achievement.craftCable=Connection : up and ready !
+achievement.craftCable.desc=Sata 4 FTW
+achievement.craftAdvancedNoteBlock=Time for music
+achievement.craftAdvancedNoteBlock.desc=XFactor
+achievement.dropTreasureDisk=Antiquarian programmer
+achievement.dropTreasureDisk.desc=Indiana's Legacy
+achievement.craftWirelessModem=Cable are so overage.
+achievement.craftWirelessModem.desc=WIFI my don

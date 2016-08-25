@@ -1,0 +1,9 @@
+
+{
+    "variants": {
+        "direction=south": { "model": "lifeisperipheral:EntityDetector" },
+        "direction=north": { "model": "lifeisperipheral:EntityDetector", "y": 180 },
+        "direction=east":  { "model": "lifeisperipheral:EntityDetector", "y": 270 },
+        "direction=west":  { "model": "lifeisperipheral:EntityDetector", "y": 90}
+    }
+}
