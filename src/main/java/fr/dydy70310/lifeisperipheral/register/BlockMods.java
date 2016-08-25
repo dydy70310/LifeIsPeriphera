@@ -3,19 +3,14 @@ package fr.dydy70310.lifeisperipheral.register;
 import dan200.computercraft.ComputerCraft;
 import fr.dydy70310.lifeisperipheral.MainLIP;
 import fr.dydy70310.lifeisperipheral.Reference;
-import fr.dydy70310.lifeisperipheral.blocks.BlockAdvancedNoteBlock;
 import fr.dydy70310.lifeisperipheral.blocks.BlockChatInterface;
 import fr.dydy70310.lifeisperipheral.blocks.BlockEntityDetector;
 import fr.dydy70310.lifeisperipheral.blocks.BlockEventSimulator;
-import fr.dydy70310.lifeisperipheral.blocks.BlockInvertoryInterface;
-import fr.dydy70310.lifeisperipheral.blocks.BlockAdminChest;
+import fr.dydy70310.lifeisperipheral.blocks.BlockInventoryInterface;
 import fr.dydy70310.lifeisperipheral.blocks.BlockWorldInterface;
-import fr.dydy70310.lifeisperipheral.tile.TileAdvancedNoteBlock;
 import fr.dydy70310.lifeisperipheral.tile.TileChatInterface;
 import fr.dydy70310.lifeisperipheral.tile.TileEntityDetector;
-import fr.dydy70310.lifeisperipheral.tile.TileEventSimulator;
-import fr.dydy70310.lifeisperipheral.tile.TileInvertoryInterface;
-import fr.dydy70310.lifeisperipheral.tile.TileAdminChest;
+import fr.dydy70310.lifeisperipheral.tile.TileInventoryInterface;
 import fr.dydy70310.lifeisperipheral.tile.TileWorldInterface;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -25,14 +20,14 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+ 
+public class BlockMods { 
 
-public class BlockMods {
-
-	
+	 
 	public static Block EntityDetector;
 	public static Block AdvancedNoteBlock;
 	public static Block ChatInterface;
-	public static Block WorldInterface;
+	public static Block WorldInterface; 
 	public static Block InventoryInterface;
 	public static Block EventSimulator;
 	public static Block AdminChest;
@@ -42,12 +37,12 @@ public class BlockMods {
 		//AdvancedNoteBlock = new BlockAdvancedNoteBlock().setUnlocalizedName("AdvancedNoteBlock").setCreativeTab(MainLIP.LifeIsPeripheral).setHardness(4.5F);
 		ChatInterface = new BlockChatInterface().setUnlocalizedName("ChatInterface").setCreativeTab(MainLIP.LifeIsPeripheral).setHardness(4.5F);
 		WorldInterface = new BlockWorldInterface().setUnlocalizedName("WorldInterface").setCreativeTab(MainLIP.LifeIsPeripheral).setHardness(4.5F);
-		InventoryInterface = new BlockInvertoryInterface().setUnlocalizedName("InventoryInterface").setCreativeTab(MainLIP.LifeIsPeripheral).setHardness(4.5F);
+		InventoryInterface = new BlockInventoryInterface().setUnlocalizedName("InventoryInterface").setCreativeTab(MainLIP.LifeIsPeripheral).setHardness(4.5F);
 		EventSimulator = new BlockEventSimulator().setUnlocalizedName("EventSimulator").setCreativeTab(MainLIP.LifeIsPeripheral).setHardness(4.5F);
 		//AdminChest = new BlockAdminChest().setUnlocalizedName("AdminChest").setCreativeTab(MainLIP.LifeIsPeripheral).setHardness(4.5F);
-	}
+	}	
 	
-	public static void register(){
+	public static void register(){			
 		//EntityDetector
 		GameRegistry.registerBlock(EntityDetector,EntityDetector.getUnlocalizedName().substring(5));
 		GameRegistry.addRecipe(new ItemStack(BlockMods.EntityDetector,1),new Object[] {"%%%","KCS","%%%",'K', Items.ender_eye ,'C', ComputerCraft.Blocks.computer, 'S', Items.sign, '%', Items.gold_ingot} );
@@ -71,7 +66,7 @@ public class BlockMods {
 		//ChestInterface
 		GameRegistry.registerBlock(InventoryInterface,InventoryInterface.getUnlocalizedName().substring(5));
 		GameRegistry.addRecipe(new ItemStack(BlockMods.InventoryInterface,1),new Object[] {"%%%","CTS","%%%",'C', Blocks.chest ,'T', ComputerCraft.Blocks.turtle, 'S', Items.sign, '%', Items.gold_ingot} );
-		GameRegistry.registerTileEntity(TileInvertoryInterface.class, "InventoryInterface");
+		GameRegistry.registerTileEntity(TileInventoryInterface.class, "InventoryInterface");
 		
 		//EventSimulator
 		/*GameRegistry.registerBlock(EventSimulator,EventSimulator.getUnlocalizedName().substring(5));

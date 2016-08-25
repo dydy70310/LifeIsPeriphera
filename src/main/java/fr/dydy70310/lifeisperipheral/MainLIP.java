@@ -4,12 +4,9 @@ import org.apache.logging.log4j.Logger;
 
 import dan200.computercraft.api.ComputerCraftAPI;
 import fr.dydy70310.lifeisperipheral.GUI.GUIHandler;
-import fr.dydy70310.lifeisperipheral.blocks.BlockAdvancedNoteBlock;
 import fr.dydy70310.lifeisperipheral.blocks.BlockChatInterface;
 import fr.dydy70310.lifeisperipheral.blocks.BlockEntityDetector;
-import fr.dydy70310.lifeisperipheral.blocks.BlockEventSimulator;
-import fr.dydy70310.lifeisperipheral.blocks.BlockInvertoryInterface;
-import fr.dydy70310.lifeisperipheral.blocks.BlockAdminChest;
+import fr.dydy70310.lifeisperipheral.blocks.BlockInventoryInterface;
 import fr.dydy70310.lifeisperipheral.blocks.BlockWorldInterface;
 import fr.dydy70310.lifeisperipheral.config.ConfigHandler;
 import fr.dydy70310.lifeisperipheral.event.CraftingAchievementTrigger;
@@ -64,7 +61,7 @@ public class MainLIP{
 		//ComputerCraftAPI.registerPeripheralProvider(new BlockAdvancedNoteBlock());
 		ComputerCraftAPI.registerPeripheralProvider(new BlockChatInterface());
 		ComputerCraftAPI.registerPeripheralProvider(new BlockWorldInterface());
-		ComputerCraftAPI.registerPeripheralProvider(new BlockInvertoryInterface());
+		ComputerCraftAPI.registerPeripheralProvider(new BlockInventoryInterface());
 		//ComputerCraftAPI.registerPeripheralProvider(new BlockEventSimulator());
 		//ComputerCraftAPI.registerPeripheralProvider(new BlockAdminChest());
 		
