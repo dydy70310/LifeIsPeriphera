@@ -6,6 +6,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.event.entity.PlaySoundAtEntityEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class LifeIsPeripheralEventHandler {
@@ -24,6 +25,17 @@ public class LifeIsPeripheralEventHandler {
 			startEvent(event.username,event.message);
 		}	
 	}
+	
+	@SubscribeEvent
+	public void onJoinEvent(net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent event){
+		TileChatInterface.onPlayerJoin(event.player.getName());
+	}
+	
+	@SubscribeEvent
+	public void onLeftEvent(net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedOutEvent event){
+		TileChatInterface.onPlayerLeft(event.player.getName());
+	}
+	
 	
 	@SubscribeEvent
 	public void onPlayerDeath(LivingDeathEvent event){

@@ -58,7 +58,7 @@ public class TileAdminChest extends TileEntity implements  IPeripheral, IInvBasi
 	  
 	@Override
 	public String getType() {
-		this.inventaire.addInventoryChangeListener(this);
+		//this.inventaire.addInventoryChangeListener(this);
 		return "AdminChest";
 	}
 
@@ -161,7 +161,7 @@ public class TileAdminChest extends TileEntity implements  IPeripheral, IInvBasi
 	        				for (int i=0; i < SlotMini; i++) {
 	        					newInventaire.setInventorySlotContents(i, this.inventaire.getStackInSlot(i));
 	        				}
-	        				newInventaire.addInventoryChangeListener(this);
+	        			//	newInventaire.addInventoryChangeListener(this);
 	        				this.inventaire = newInventaire;
 	        				this.TotalCount = SlotCount;
 	        				this.updateContainingBlockInfo();

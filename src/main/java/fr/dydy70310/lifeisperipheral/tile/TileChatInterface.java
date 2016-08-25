@@ -232,5 +232,17 @@ public class TileChatInterface extends TileEntity implements IPeripheral {
 			
 		}
 	}
+	public static void onPlayerJoin(String sender) {
+		for (IComputerAccess computer : ChatInterfaceRegistry.computers.keySet()) {
+			computer.queueEvent("player_join", new Object[] {sender});
+			
+		}
+	}
+	public static void onPlayerLeft(String sender) {
+		for (IComputerAccess computer : ChatInterfaceRegistry.computers.keySet()) {
+			computer.queueEvent("player_left", new Object[] {sender});
+			
+		}
+	}
 
 }
