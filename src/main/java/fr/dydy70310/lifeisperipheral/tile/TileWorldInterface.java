@@ -2,27 +2,19 @@ package fr.dydy70310.lifeisperipheral.tile;
 
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
-
-import org.apache.commons.lang3.math.NumberUtils;
 
 import dan200.computercraft.api.lua.ILuaContext;
 import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
-import dan200.computercraft.shared.util.NBTUtil;
 import fr.dydy70310.lifeisperipheral.Utils.Util;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.nbt.NBTBase;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
-import net.minecraftforge.common.util.Constants.NBT;
 
 public class TileWorldInterface extends TileEntity implements IPeripheral {
 
@@ -31,7 +23,7 @@ public class TileWorldInterface extends TileEntity implements IPeripheral {
 		public static HashMap<IComputerAccess, HashMap> computers = new HashMap<IComputerAccess, HashMap>();
 	}
 	
-	public static String[] methods = { "getBiome","getWeather","getBlockInfos","setListeningRange","getRealDate","getPlayerList","getMethods"};
+	public static String[] methods = { "getBiome","getWeather","getBlockInfos","getBlockDatatags","getRealDate","getPlayerList","getMethods"};
 	  public BlockPos pos;
 	  public World world;
 	  
@@ -79,28 +71,12 @@ public class TileWorldInterface extends TileEntity implements IPeripheral {
         		if (arguments.length >= 3) {
         			if (arguments[0] instanceof Double && arguments[1] instanceof Double && arguments[2] instanceof Double) {
         				HashMap BlockInfos = new HashMap();
-        				HashMap datatags = new HashMap();
+        				
         				BlockPos blockPos = new BlockPos((Double)arguments[0],(Double)arguments[1],(Double)arguments[2]);
         				TileEntity TileBlock = world.getTileEntity(blockPos);
-        				BiomeGenBase biomeBlock = world.getBiomeGenForCoords(pos);
-        				
-        				if (TileBlock != null && TileBlock.serializeNBT() != null) {
-        				datatags = Util.GetTags(TileBlock.serializeNBT());
-        				}
-        				BlockInfos.put("datatags",datatags);
-        				BlockInfos.put("light", world.getLightBrightness(blockPos));
-        				BlockInfos.put("opacity", world.getBlockLightOpacity(blockPos));
-        				BlockInfos.put("lightLevel", world.getLightFromNeighbors(blockPos));
         				BlockInfos.put("blockName", world.getBlockState(blockPos).getBlock().getRegistryName());
         				BlockInfos.put("metadata", world.getBlockState(blockPos).getBlock().getMetaFromState(world.getBlockState(blockPos)));
-        				BlockInfos.put("slipperiness", world.getBlockState(blockPos).getBlock().slipperiness);
-        				BlockInfos.put("chunkX", world.getChunkFromBlockCoords(blockPos).xPosition);
-        				BlockInfos.put("chunkZ", world.getChunkFromBlockCoords(blockPos).zPosition);
         				BlockInfos.put("isChunkLoaded", world.getChunkFromBlockCoords(blockPos).isLoaded());
-        				BlockInfos.put("isPowered", world.isBlockPowered(blockPos));
-        				BlockInfos.put("powerStrength", world.isBlockIndirectlyGettingPowered(blockPos));
-        				BlockInfos.put("biome", biomeBlock.biomeName);
-        				
         				return new Object[]{BlockInfos};
         			}
         			else
@@ -113,23 +89,26 @@ public class TileWorldInterface extends TileEntity implements IPeripheral {
         			return new Object[]{"getBlockInfos(X,Y,Z)"};
         		}
         	case 3:{
-        		if (arguments.length >= 1) {
-        			if (arguments[0] instanceof Double) {				
-        				HashMap infos = WorldInterfaceRegistry.computers.get(computer);
-        				infos.remove("range");
-        				infos.put("range",((Double) arguments[0]).intValue());
-        				WorldInterfaceRegistry.computers.remove(computer);
-        				WorldInterfaceRegistry.computers.put(computer, infos);
-        				return new Object[]{arguments[0]};
+        		if (arguments.length >= 3) {
+        			if (arguments[0] instanceof Double && arguments[1] instanceof Double && arguments[2] instanceof Double) {				
+        				HashMap BlockInfos = new HashMap();
+        				BlockPos blockPos = new BlockPos((Double)arguments[0],(Double)arguments[1],(Double)arguments[2]);
+        				TileEntity TileBlock = world.getTileEntity(blockPos);
+        				HashMap datatags = new HashMap();
+        				if (TileBlock != null && TileBlock.serializeNBT() != null) {
+        				datatags = Util.GetTags(TileBlock.serializeNBT());
+        				}
+        				BlockInfos.put("datatags",datatags);
+        				return new Object[]{BlockInfos};
         			}
         			else
         			{
-        				return new Object[]{"setListeningRange(Number)"};
+        				return new Object[]{"getBlockDatatags(Number,Number,Number)"};
         			}
         		}
         		else
         		{
-        			return new Object[]{(Integer)WorldInterfaceRegistry.computers.get(computer).get("range")};
+        			return new Object[]{"getBlockDatatags(X,Y,Z)"};
         		}
         	}
         	case 4:{
@@ -152,10 +131,10 @@ public class TileWorldInterface extends TileEntity implements IPeripheral {
 							return new Object[] {"getWeather()","This function return the weather in the world like 'Rain', 'Thunder', 'Clear'"};
 						}
 						if (arguments[0].equals("getBlockInfos")) {
-							return new Object[] {"getBlockInfos(X,Y,Z)","getBlockInfos(Number,Number,Number)","This function return every informations about the block at one coordinate like name, metadatas, datatags, etc..."};
+							return new Object[] {"getBlockInfos(X,Y,Z)","getBlockInfos(Number,Number,Number)","This function return every informations about the block at one coordinate like name, metadatas, and if is on chunkloaded"};
 						}
-						if (arguments[0].equals("setListeningRange")) {
-							return new Object[] {"setListeningRange(Range or Nothing)","setListeningRange(Number or nil)","This function allow you to define the radius of listening, if there no argument to define the radius then the function return the actual radius of listening"};
+						if (arguments[0].equals("getBlockDatatags")) {
+							return new Object[] {"getBlockDatatags(X,Y,Z)","getBlockDatatags(Number,Number,Number)","This function return every informations about the block at one coordinate like datatags"};
 						}
 						if (arguments[0].equals("getRealDate")) {
 							Date ndate = new Date();
@@ -219,27 +198,5 @@ public class TileWorldInterface extends TileEntity implements IPeripheral {
 		return false;
 	}
 	
-	public static void onAmbiantSoundPlayed(Entity sender ,String soundname, float volume, float pitch) {
-		for (IComputerAccess computer : WorldInterfaceRegistry.computers.keySet()) {
-			BlockPos position =(BlockPos)WorldInterfaceRegistry.computers.get(computer).get("pos");
-			double distance = sender.getDistance(position.getX(), position.getY(), position.getZ());
-			String TypeEntity = sender.getClass().getSimpleName();
-			
-			
-			
-			int range = (Integer)WorldInterfaceRegistry.computers.get(computer).get("range");
-			if (distance <= range) {
-				HashMap coord = new HashMap();
-				coord.put("x", sender.getPosition().getX());
-				coord.put("y", sender.getPosition().getY());
-				coord.put("z", sender.getPosition().getZ());
-				computer.queueEvent("sound_played", new Object[] {sender.getName(), TypeEntity, coord, distance, soundname, volume, pitch});
-			}
-	}
-		
-	
-
-
-	}	
 
 }

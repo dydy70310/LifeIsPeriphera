@@ -74,12 +74,6 @@ public class LifeIsPeripheralEventHandler {
 
 	}
 	
-	@SubscribeEvent
-	 public void onPlaySoundAtEntity(PlaySoundAtEntityEvent e) {
-		if (e != null) {
-			TileWorldInterface.onAmbiantSoundPlayed(e.entity, e.name, e.volume, e.pitch);
-		}
-	}
 	
 	public void startEvent(String sender,String msg){
 		

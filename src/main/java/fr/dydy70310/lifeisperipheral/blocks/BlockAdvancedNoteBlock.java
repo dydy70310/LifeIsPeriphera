@@ -1,20 +1,17 @@
 package fr.dydy70310.lifeisperipheral.blocks;
 
 
+import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.google.common.collect.Lists;
-
-import java.awt.Rectangle;
-import java.awt.geom.Rectangle2D;
 
 import dan200.computercraft.api.peripheral.IPeripheral;
 import dan200.computercraft.api.peripheral.IPeripheralProvider;
 import fr.dydy70310.lifeisperipheral.Utils.MultiBlockInfos;
 import fr.dydy70310.lifeisperipheral.Utils.Util;
 import fr.dydy70310.lifeisperipheral.tile.TileAdvancedNoteBlock;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;

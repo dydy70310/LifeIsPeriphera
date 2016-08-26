@@ -6,20 +6,9 @@ import dan200.computercraft.api.lua.ILuaContext;
 import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
-import fr.dydy70310.lifeisperipheral.GUI.GUIHandler;
 import fr.dydy70310.lifeisperipheral.Utils.Util;
-import fr.dydy70310.lifeisperipheral.blocks.BlockAdminChest;
-import net.minecraft.block.properties.PropertyDirection;
-import net.minecraft.client.Minecraft;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInvBasic;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryBasic;
-import net.minecraft.inventory.InventoryEnderChest;
-import net.minecraft.inventory.IInvBasic;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -29,11 +18,7 @@ import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.IChatComponent;
 import net.minecraft.world.World;
-import net.minecraft.world.biome.BiomeGenBase;
-import net.minecraftforge.common.util.Constants.NBT;
-import net.minecraftforge.fml.common.network.NetworkRegistry;
 
 public class TileAdminChest extends TileEntity implements  IPeripheral, IInvBasic {
 

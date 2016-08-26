@@ -7,9 +7,6 @@ import dan200.computercraft.api.lua.ILuaContext;
 import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
-import dan200.computercraft.shared.peripheral.common.IPeripheralTile;
-import dan200.computercraft.shared.peripheral.common.ItemPeripheral;
-import dan200.computercraft.shared.peripheral.common.ItemPeripheralBase;
 import fr.dydy70310.lifeisperipheral.MainLIP;
 import fr.dydy70310.lifeisperipheral.Reference;
 import fr.dydy70310.lifeisperipheral.tile.TileEventSimulator.EventSimulatorRegistry;
@@ -21,7 +18,6 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatStyle;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.client.config.GuiConfigEntries.ChatColorEntry;
 
 public class TileChatInterface extends TileEntity implements IPeripheral {
 
@@ -34,7 +30,7 @@ public class TileChatInterface extends TileEntity implements IPeripheral {
 	
 
 	
-	public static String[] methods = {"sendGlobalMessage","sendPlayerMessage","setName","getName","getMethods","sendMessageToID"};
+	public static String[] methods = {"sendGlobalMessage","sendPlayerMessage","setName","getName","getMethods"};
 	  public BlockPos pos;
 	  public World world;
 	  public String name = "[-DefaultComputerName-]";
@@ -232,9 +228,7 @@ public class TileChatInterface extends TileEntity implements IPeripheral {
 	
 	public static void onServerMessage(String sender ,String chatmessage) {
 		for (IComputerAccess computer : ChatInterfaceRegistry.computers.keySet()) {
-			MainLIP.LOGGER.info(chatmessage);
 			computer.queueEvent("chat_message", new Object[] {sender,chatmessage});
-			
 		}
 	}
 	public static void onPlayerJoin(String sender) {

@@ -2,7 +2,6 @@ package fr.dydy70310.lifeisperipheral.blocks;
 
 import dan200.computercraft.api.peripheral.IPeripheral;
 import dan200.computercraft.api.peripheral.IPeripheralProvider;
-import fr.dydy70310.lifeisperipheral.MainLIP;
 import fr.dydy70310.lifeisperipheral.tile.TileEntityDetector;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;

@@ -7,11 +7,9 @@ import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
 import fr.dydy70310.lifeisperipheral.Utils.Util;
-import net.minecraft.block.BlockContainer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
-import net.minecraft.tileentity.TileEntityLockable;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
@@ -19,18 +17,18 @@ import net.minecraft.world.World;
 public class TileInventoryInterface extends TileEntity implements IPeripheral {
 
 	public static class InventoryInterfaceRegistry {
-		public static HashMap<TileInventoryInterface, Boolean> inventoryInterfaces = new HashMap<TileInventoryInterface, Boolean>();
+		public static HashMap<TileInventoryInterface, Boolean> invertoryInterfaces = new HashMap<TileInventoryInterface, Boolean>();
 		public static HashMap<IComputerAccess, Boolean> computers = new HashMap<IComputerAccess, Boolean>();
 	}
 	
-	public static String[] methods = { "getItemInInventory","getItemInSlot","getInventorySize","getInventoryType"};
+	public static String[] methods = { "getItemsInInventory","getItemInSlot","getInventorySize","getInventoryType","getMethods"};
 	  public BlockPos pos;
 	  public World world;
 	  public EnumFacing side;
 	  
 	@Override
 	public String getType() {
-		return "Inventory Interface";
+		return "InventoryInterface";
 	}
 
 	@Override
@@ -48,7 +46,7 @@ public class TileInventoryInterface extends TileEntity implements IPeripheral {
 				EnumFacing side = EnumFacing.NORTH;
 				if (tile != null){
 					if (tile instanceof TileEntityChest) {
-						TileEntityChest chest = (TileEntityChest) tile;
+						TileEntityChest  chest = (TileEntityChest) tile;
 						TileEntityChest chest2 = null;
 						chest.checkForAdjacentChests();
 						if(chest.adjacentChestXPos != null){
@@ -113,15 +111,6 @@ public class TileInventoryInterface extends TileEntity implements IPeripheral {
 							}
 							return new Object[] {infoInv};
 						}
-					}else if (tile instanceof TileEntityLockable) {
-						TileEntityLockable chest = (TileEntityLockable) tile;
-						HashMap infoInv = new HashMap();
-						for(int j = 0;j < chest.getSizeInventory() ;j++){
-			    			ItemStack InventoryInfos = chest.getStackInSlot(j);
-			    			HashMap StackInfos = Util.getInfo(InventoryInfos,j + 1);
-				    		infoInv.put(j+1,StackInfos);
-			    		}
-						return new Object[] {infoInv};
 					}
 					return null;
 				}
@@ -188,7 +177,8 @@ public class TileInventoryInterface extends TileEntity implements IPeripheral {
 												if(slot < chest.getSizeInventory()){
 													InventoryInfos = chest.getStackInSlot(slot);
 												}else{
-													InventoryInfos = chest2.getStackInSlot(slot - chest2.getSizeInventory());
+													slot = slot - chest2.getSizeInventory();
+													InventoryInfos = chest2.getStackInSlot(slot);
 												}
 												HashMap StackInfos = Util.getInfo(InventoryInfos,slot);
 								    			return new Object[] {StackInfos};
@@ -204,7 +194,8 @@ public class TileInventoryInterface extends TileEntity implements IPeripheral {
 												if(slot < chest.getSizeInventory()){
 													InventoryInfos = chest.getStackInSlot(slot);
 												}else{
-													InventoryInfos = chest2.getStackInSlot(slot - chest2.getSizeInventory());
+													slot = slot - chest2.getSizeInventory();
+													InventoryInfos = chest2.getStackInSlot(slot);
 												}
 												HashMap StackInfos = Util.getInfo(InventoryInfos,slot);
 								    			return new Object[] {StackInfos};
@@ -218,41 +209,24 @@ public class TileInventoryInterface extends TileEntity implements IPeripheral {
 									}
 									
 								}
-							}else if (tile instanceof TileEntityLockable) {
-								TileEntityLockable  chest = (TileEntityLockable) tile;
-								HashMap infoInv = new HashMap();
-								Double s = (Double) arguments[0];
-								
-								if(s >= 1 && s <= chest.getSizeInventory()){
-									s = s-1;
-									if(s >= 0 && s <= chest.getSizeInventory()){
-										int slot = s.intValue();
-										ItemStack InventoryInfos = chest.getStackInSlot(slot);
-										HashMap StackInfos = Util.getInfo(InventoryInfos);
-							    		return new Object[] {StackInfos};
-									}else{
-										return new Object[] {"This slot is out of bounds !"};
-									}
-								}else{
-									String string = "This slot is out of bounds ! Please enter en valid slot between : 1 " + chest.getSizeInventory();
-									return new Object[] {string};
-								}
 							}
 							return null;
 						}
 						return null;
 					}else{
-						return new Object[] {"The arguments need to be a Number !"};
+						return new Object[] {"getItemInSlot(Number)"};
 					}
 				}else{
-					return new Object[] {"The arguments need to be a Number !"};
+					return new Object[] {"getItemInSlot(Slot)"};
 				}
 		    }
 		    case 2:{
 		    	BlockPos bpos = Util.poswithfacing(pos, side);
 				TileEntity tile = world.getTileEntity(bpos);
 				if (tile != null){
+					
 					if (tile instanceof TileEntityChest) {
+						
 						TileEntityChest  chest = (TileEntityChest) tile;
 						TileEntityChest chest2 = null;
 						chest.checkForAdjacentChests();
@@ -274,11 +248,6 @@ public class TileInventoryInterface extends TileEntity implements IPeripheral {
 							size = size + chest2.getSizeInventory();
 						}
 						return new Object[] {size};
-					}else if (tile instanceof TileEntityLockable) {
-						TileEntityLockable  chest = (TileEntityLockable) tile;
-						
-						int size = chest.getSizeInventory();
-						return new Object[] {size};
 					}
 					return null;
 				}
@@ -287,21 +256,42 @@ public class TileInventoryInterface extends TileEntity implements IPeripheral {
 		    case 3:{
 		    	BlockPos bpos = Util.poswithfacing(pos, side);
 				TileEntity tile = world.getTileEntity(bpos);
-				if (tile != null){
-					if (tile instanceof TileEntityChest) {
-						String TypeEntity = tile.getClass().getName();
-						String[] k = TypeEntity.split("[.]");
-		    			TypeEntity = k[k.length - 1].substring(10);
-				    	return new Object[] {TypeEntity};
-					}else if (tile instanceof TileEntityLockable) {
-						String TypeEntity = tile.getClass().getName();
-						String[] k = TypeEntity.split("[.]");
-		    			TypeEntity = k[k.length - 1].substring(10);
-				    	return new Object[] {TypeEntity};
-					}
-					return null;
+				if (tile != null) {
+					return new Object[] {tile.getClass().getSimpleName()};
 				}
-				return null;
+				return new Object[] {};
+		    }
+		    case 4:{
+				if (arguments.length > 0) {
+					if (arguments[0] instanceof String) {
+						if (arguments[0].equals("getItemsInInventory")) {
+							return new Object[] {"getItemsInInventory()","This function return a table of all container slots with datas about the slots"};
+						}
+						if (arguments[0].equals("getItemInSlot")) {
+							return new Object[] {"getItemInSlot(Slot)","getItemInSlot(Number)","This function return a data table of one container slot in particular"};
+						}
+						if (arguments[0].equals("getInventorySize")) {
+							return new Object[] {"getInventorySize()","This function return the number of total container slots"};
+						}
+						if (arguments[0].equals("getInventorySize")) {
+							return new Object[] {"getInventorySize()","This function return the number of total container slots"};
+						}
+						if (arguments[0].equals("getInventoryType")) {
+							return new Object[] {"getInventoryType()","This function return the name of the container type"};
+						}
+						if (arguments[0].equals("getMethods")) {
+							return new Object[] {"getMethods(Name or Nothing)","getMethods(String or nil)","This function return informations about every function of this peripheral, if there no arguments, she returns every functions of the peripheral"};
+						}
+					}
+					else
+					{
+						return new Object[] {"getMethods(String or nil)"};
+					}
+				}
+				else
+				{
+					return methods;
+				}
 		    }
 		}
 		
@@ -313,14 +303,14 @@ public class TileInventoryInterface extends TileEntity implements IPeripheral {
 	
 	@Override
 	public void attach(IComputerAccess computer) {
-		InventoryInterfaceRegistry.inventoryInterfaces.put(this, true);
+		InventoryInterfaceRegistry.invertoryInterfaces.put(this, true);
 		InventoryInterfaceRegistry.computers.put(computer, true);
 		
 	}
 	
 	@Override
 	public void detach(IComputerAccess computer) {
-		InventoryInterfaceRegistry.inventoryInterfaces.remove(this);
+		InventoryInterfaceRegistry.invertoryInterfaces.remove(this);
 		InventoryInterfaceRegistry.computers.remove(computer);
 	}
 
