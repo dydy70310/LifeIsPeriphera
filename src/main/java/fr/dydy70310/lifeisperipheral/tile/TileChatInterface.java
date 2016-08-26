@@ -30,7 +30,7 @@ public class TileChatInterface extends TileEntity implements IPeripheral {
 	
 
 	
-	public static String[] methods = {"sendGlobalMessage","sendPlayerMessage","setName","getName","getMethods","sendMessageToID"};
+	public static String[] methods = {"sendGlobalMessage","sendPlayerMessage","setName","getName","getMethods"};
 	  public BlockPos pos;
 	  public World world;
 	  public String name = "[-DefaultComputerName-]";
