@@ -9,6 +9,7 @@ import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
 import fr.dydy70310.lifeisperipheral.MainLIP;
 import fr.dydy70310.lifeisperipheral.Reference;
+import fr.dydy70310.lifeisperipheral.tile.TileEventSimulator.EventSimulatorRegistry;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
@@ -22,14 +23,14 @@ public class TileChatInterface extends TileEntity implements IPeripheral {
 
 	public static class ChatInterfaceRegistry {
 		public static HashMap<TileChatInterface, Boolean> chatInterfaces = new HashMap<TileChatInterface, Boolean>();
-		public static HashMap<IComputerAccess, Boolean> computers = new HashMap<IComputerAccess, Boolean>();
+		public static HashMap<IComputerAccess, HashMap> computers = new HashMap<IComputerAccess, HashMap>();
 	}
 	
 	
 	
 
 	
-	public static String[] methods = {"sendGlobalMessage","sendPlayerMessage","setName","getName","getMethods"};
+	public static String[] methods = {"sendGlobalMessage","sendPlayerMessage","setName","getName","getMethods","sendMessageToID"};
 	  public BlockPos pos;
 	  public World world;
 	  public String name = "[-DefaultComputerName-]";
@@ -70,6 +71,7 @@ public class TileChatInterface extends TileEntity implements IPeripheral {
 							            ChatStyle style = new ChatStyle();
 							            text.setChatStyle(style); 
 										MinecraftServer.getServer().getConfigurationManager().sendChatMsg(text);
+										onServerMessage(this.name, text +"");
 										System.out.println("ChatInterface:[name='"+this.name+"',x="+this.pos.getX()+",y="+this.pos.getY()+",z="+this.pos.getZ()+"] "+arguments[0]);
 									}
 								}
@@ -196,18 +198,21 @@ public class TileChatInterface extends TileEntity implements IPeripheral {
 				}
 				else
 				{
-					return new Object[] {"sendGlobalMessage","sendPlayerMessage","setName","getName","getMethods","","EVENTS :","- chat_message : When a player say something in the chat this event is triggered and return the player name and the message","Example : event, playerName, message = os.pullEvent('chat_message')","","INFORMATIONS : if you say something in the chat with ## before, this will never appear in the chat but it trigger the chat_message event"};
+					return new Object[] {"sendGlobalMessage","sendPlayerMessage","setName","getName","getMethods","","EVENTS :","- chat_message : When a player say something in the chat this event is triggered and return the player name and the message","Example : event, playerName, message = os.pullEvent('chat_message')","- player_join : When a player join this event is triger.It is the same usage that the last","- player_left : When a player left this event is triger.It is the same usage that the last","","INFORMATIONS : if you say something in the chat with ## before, this will never appear in the chat but it trigger the chat_message event. And if  you say something in the chat with $$ComputerID before the message it triger in the computer with the equals ComputerID.This message doesn't appeared in the chat"};
 				}
-		}
+			}	
 		return null;
 	}
-
 
 	
 	@Override
 	public void attach(IComputerAccess computer) {
+		HashMap infos = new HashMap();
+		infos.put("id", computer.getID());
+		infos.put("ChatInterface", this);
+		
 		ChatInterfaceRegistry.chatInterfaces.put(this, true);
-		ChatInterfaceRegistry.computers.put(computer, true);
+		ChatInterfaceRegistry.computers.put(computer, infos);
 	}
 	
 	@Override
@@ -238,6 +243,15 @@ public class TileChatInterface extends TileEntity implements IPeripheral {
 		for (IComputerAccess computer : ChatInterfaceRegistry.computers.keySet()) {
 			computer.queueEvent("player_left", new Object[] {sender});
 			
+		}
+	}
+	
+	public static void onMessageId(Integer id,String sender,String message) {
+		for (IComputerAccess computerEntry : ChatInterfaceRegistry.computers.keySet()) {
+			Integer registerID = (Integer)ChatInterfaceRegistry.computers.get(computerEntry).get("id");
+			if (id.equals(registerID)) {
+				computerEntry.queueEvent( "chat_message", new Object[] {sender,message});
+			}
 		}
 	}
 
