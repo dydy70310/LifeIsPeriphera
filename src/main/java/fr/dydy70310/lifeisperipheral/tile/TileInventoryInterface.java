@@ -16,7 +16,7 @@ import net.minecraft.world.World;
 
 public class TileInventoryInterface extends TileEntity implements IPeripheral {
 
-	public static class InvertoryInterfaceRegistry {
+	public static class InventoryInterfaceRegistry {
 		public static HashMap<TileInventoryInterface, Boolean> invertoryInterfaces = new HashMap<TileInventoryInterface, Boolean>();
 		public static HashMap<IComputerAccess, Boolean> computers = new HashMap<IComputerAccess, Boolean>();
 	}
@@ -303,15 +303,15 @@ public class TileInventoryInterface extends TileEntity implements IPeripheral {
 	
 	@Override
 	public void attach(IComputerAccess computer) {
-		InvertoryInterfaceRegistry.invertoryInterfaces.put(this, true);
-		InvertoryInterfaceRegistry.computers.put(computer, true);
+		InventoryInterfaceRegistry.invertoryInterfaces.put(this, true);
+		InventoryInterfaceRegistry.computers.put(computer, true);
 		
 	}
 	
 	@Override
 	public void detach(IComputerAccess computer) {
-		InvertoryInterfaceRegistry.invertoryInterfaces.remove(this);
-		InvertoryInterfaceRegistry.computers.remove(computer);
+		InventoryInterfaceRegistry.invertoryInterfaces.remove(this);
+		InventoryInterfaceRegistry.computers.remove(computer);
 	}
 
 	@Override

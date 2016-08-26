@@ -61,8 +61,7 @@ public class MainLIP {
 		ComputerCraftAPI.registerPeripheralProvider(new BlockChatInterface());
 		ComputerCraftAPI.registerPeripheralProvider(new BlockWorldInterface());
 		ComputerCraftAPI.registerPeripheralProvider(new BlockInventoryInterface());
-		// ComputerCraftAPI.registerPeripheralProvider(new
-		// BlockEventSimulator());
+		// ComputerCraftAPI.registerPeripheralProvider(new BlockEventSimulator());
 		// ComputerCraftAPI.registerPeripheralProvider(new BlockAdminChest());
 
 		MinecraftForge.EVENT_BUS.register(new LifeIsPeripheralEventHandler());
