@@ -10,6 +10,7 @@ public class Reference {
 	
 	public static Double Range = (double) 64;
 	public static Double Rate = (double) 20;
+	public static Double maxMassageid =  (double)5;
 	public static Boolean AllowServerMessage = true;
 	public static Boolean AllowPlayerMessage = true;
 		

@@ -3,6 +3,9 @@ package fr.dydy70310.lifeisperipheral.register;
 import fr.dydy70310.lifeisperipheral.tile.TileChatInterface;
 import fr.dydy70310.lifeisperipheral.tile.TileWorldInterface;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.ChatStyle;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.event.entity.PlaySoundAtEntityEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
@@ -18,9 +21,28 @@ public class LifeIsPeripheralEventHandler {
 			if(msg.equals("##")){
 				event.setCanceled(true);
 				startEvent(event.username,event.message);
+			}
+			else if(msg.equals("$$")){
+				event.setCanceled(true);
+				
+				String[] s = event.message.split(" ");
+				if(s[0].length() > 7 || s[0].length() <= 2){
+					ChatComponentText text = new ChatComponentText(EnumChatFormatting.RED+"Usage : $$id message");
+			        ChatStyle style = new ChatStyle();
+			        text.setChatStyle(style); 
+					event.player.addChatMessage(text);
+				}else{
+					String id = "";
+					for (int i = 2;i < s[0].length();i++){
+						id = id + s[0].charAt(i);
+					}
+					System.out.println(id);
+				}
+				//startEvent(event.username,event.message);
 			}else{
 				startEvent(event.username,event.message);
 			}
+			
 		}else{
 			startEvent(event.username,event.message);
 		}	

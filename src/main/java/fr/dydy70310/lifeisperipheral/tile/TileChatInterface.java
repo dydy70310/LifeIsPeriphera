@@ -33,10 +33,11 @@ public class TileChatInterface extends TileEntity implements IPeripheral {
 	
 
 	
-	public static String[] methods = {"sendGlobalMessage","sendPlayerMessage","setName","getName","getMethods"};
+	public static String[] methods = {"sendGlobalMessage","sendPlayerMessage","setName","getName","getMethods","setMessageId","getMessageId","sendMessageToID"};
 	  public BlockPos pos;
 	  public World world;
 	  public String name = "[-DefaultComputerName-]";
+	  public Double messageId = (double) 16;
 	  private long ActualRate = 0;
 	  private long time = 0;
 	@Override
@@ -74,6 +75,7 @@ public class TileChatInterface extends TileEntity implements IPeripheral {
 							            ChatStyle style = new ChatStyle();
 							            text.setChatStyle(style); 
 										MinecraftServer.getServer().getConfigurationManager().sendChatMsg(text);
+										onServerMessage(this.name, text +"");
 										System.out.println("ChatInterface:[name='"+this.name+"',x="+this.pos.getX()+",y="+this.pos.getY()+",z="+this.pos.getZ()+"] "+arguments[0]);
 									}
 								}
@@ -192,6 +194,12 @@ public class TileChatInterface extends TileEntity implements IPeripheral {
 						if (arguments[0].equals("getMethods")) {
 							return new Object[] {"getMethods(Name or Nothing)","getMethods(String or nil)","This function return informations about every function of this peripheral, if there no arguments, she returns every functions of the peripheral"};
 						}
+						if (arguments[0].equals("setMessageId")) {
+							return new Object[] {"setMessageId(Id)","setMessageId(int)","This function set the Id of the cumputer,the Id is used when you send a message like §§id Then only the chatInterface get the chat_message"};
+						}
+						if (arguments[0].equals("getMessageId")) {
+							return new Object[] {"getMessageId()","This function return the Id of the chatInterface"};
+						}
 					}
 					else
 					{
@@ -200,8 +208,17 @@ public class TileChatInterface extends TileEntity implements IPeripheral {
 				}
 				else
 				{
-					return new Object[] {"sendGlobalMessage","sendPlayerMessage","setName","getName","getMethods","","EVENTS :","- chat_message : When a player say something in the chat this event is triggered and return the player name and the message","Example : event, playerName, message = os.pullEvent('chat_message')","","INFORMATIONS : if you say something in the chat with ## before, this will never appear in the chat but it trigger the chat_message event"};
+					return new Object[] {"sendGlobalMessage","sendPlayerMessage","setName","getName","getMethods","setMessageId","getMessageId","","EVENTS :","- chat_message : When a player say something in the chat this event is triggered and return the player name and the message","Example : event, playerName, message = os.pullEvent('chat_message')","","INFORMATIONS : if you say something in the chat with ## before, this will never appear in the chat but it trigger the chat_message event"};
 				}
+			case 5:
+				if(arguments.length == 1){
+					this.messageId =  Double.valueOf((String) arguments[0]);
+					return new Object[] {this.messageId};
+				}else{
+					return new Object[] {"setMessage(Name)"};
+				}
+			case 6:
+				return new Object[] {this.messageId};
 		}
 		return null;
 	}
