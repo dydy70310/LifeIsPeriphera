@@ -60,6 +60,8 @@ public class MainLIP {
 		ComputerCraftAPI.registerPeripheralProvider(new BlockWorldInterface());
 		ComputerCraftAPI.registerPeripheralProvider(new BlockInventoryInterface());
 		MinecraftForge.EVENT_BUS.register(new LifeIsPeripheralEventHandler());
+		// ComputerCraftAPI.registerPeripheralProvider(new BlockEventSimulator());
+		// ComputerCraftAPI.registerPeripheralProvider(new BlockAdminChest());
 		AchievementPageHandler.registerPages();
 		MinecraftForge.EVENT_BUS.register(new DroppingAchievementTrigger());
 		MinecraftForge.EVENT_BUS.register(new CraftingAchievementTrigger());

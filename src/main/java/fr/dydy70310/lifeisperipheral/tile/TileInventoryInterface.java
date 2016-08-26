@@ -22,7 +22,7 @@ public class TileInventoryInterface extends TileEntity implements IPeripheral {
 		public static HashMap<IComputerAccess, Boolean> computers = new HashMap<IComputerAccess, Boolean>();
 	}
 	
-	public static String[] methods = { "getItemInInventory","getItemInSlot","getInventorySize","getInventoryType"};
+	public static String[] methods = { "getItemInInventory","getItemInSlot","getInventorySize","getInventoryType","getMethods"};
 	  public BlockPos pos;
 	  public World world;
 	  public EnumFacing side;

@@ -1,7 +1,5 @@
 package fr.dydy70310.lifeisperipheral.blocks;
 
-import dan200.computercraft.ComputerCraft;
-import dan200.computercraft.api.ComputerCraftAPI;
 import dan200.computercraft.api.peripheral.IPeripheral;
 import dan200.computercraft.api.peripheral.IPeripheralProvider;
 import fr.dydy70310.lifeisperipheral.tile.TileInventoryInterface;
