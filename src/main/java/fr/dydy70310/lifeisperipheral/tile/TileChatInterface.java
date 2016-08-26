@@ -204,24 +204,6 @@ public class TileChatInterface extends TileEntity implements IPeripheral {
 				{
 					return new Object[] {"sendGlobalMessage","sendPlayerMessage","setName","getName","getMethods","","EVENTS :","- chat_message : When a player say something in the chat this event is triggered and return the player name and the message","Example : event, playerName, message = os.pullEvent('chat_message')","- player_join : When a player join this event is triger.It is the same usage that the last","- player_left : When a player left this event is triger.It is the same usage that the last","","INFORMATIONS : if you say something in the chat with ## before, this will never appear in the chat but it trigger the chat_message event. And if  you say something in the chat with $$ComputerID before the message it triger in the computer with the equals ComputerID.This message doesn't appeared in the chat"};
 				}
-			case 5:
-				if(Reference.AllowComputerMessage.equals(true)){
-					if(arguments.length == 2){
-						if (!this.name.equals("")) {
-							if (arguments != null) {
-								if (arguments[0] != null && arguments[1] != null) {
-									onMessageId(Integer.valueOf((Integer) arguments[0]), "Computer" + String.valueOf(computer.getID()), String.valueOf((String) arguments[1]));
-									System.out.println("ChatInterface:[name='"+this.name+"',x="+this.pos.getX()+",y="+this.pos.getY()+",z="+this.pos.getZ()+"] "+arguments[0]);
-								}
-							}
-						}
-						return new Object[] {true};
-					}else{
-						return new Object[] {"sendGlobalMessage(ComputerId,Message)"};
-					}
-				}else{
-					return new Object[] {false,"This method is now allowed on this server"};
-				}
 			}	
 		return null;
 	}
