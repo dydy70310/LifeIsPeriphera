@@ -228,9 +228,7 @@ public class TileChatInterface extends TileEntity implements IPeripheral {
 	
 	public static void onServerMessage(String sender ,String chatmessage) {
 		for (IComputerAccess computer : ChatInterfaceRegistry.computers.keySet()) {
-			MainLIP.LOGGER.info(chatmessage);
 			computer.queueEvent("chat_message", new Object[] {sender,chatmessage});
-			
 		}
 	}
 	public static void onPlayerJoin(String sender) {
