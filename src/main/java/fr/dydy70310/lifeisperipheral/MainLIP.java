@@ -73,7 +73,7 @@ public class MainLIP{
 		NetworkRegistry.INSTANCE.registerGuiHandler(this, new GUIHandler());
 		
 		BlockMods.init();
-		BlockMods.register();
+		BlockMods.register(); 
 		proxy.registerRenders();
 		
 	}
