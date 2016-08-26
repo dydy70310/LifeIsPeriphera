@@ -56,12 +56,15 @@ public class MainLIP {
 	public void init(FMLInitializationEvent event) {
 
 		ComputerCraftAPI.registerPeripheralProvider(new BlockEntityDetector());
+		// ComputerCraftAPI.registerPeripheralProvider(new
+		// BlockAdvancedNoteBlock());
 		ComputerCraftAPI.registerPeripheralProvider(new BlockChatInterface());
 		ComputerCraftAPI.registerPeripheralProvider(new BlockWorldInterface());
 		ComputerCraftAPI.registerPeripheralProvider(new BlockInventoryInterface());
-		MinecraftForge.EVENT_BUS.register(new LifeIsPeripheralEventHandler());
 		// ComputerCraftAPI.registerPeripheralProvider(new BlockEventSimulator());
 		// ComputerCraftAPI.registerPeripheralProvider(new BlockAdminChest());
+
+		MinecraftForge.EVENT_BUS.register(new LifeIsPeripheralEventHandler());
 		AchievementPageHandler.registerPages();
 		MinecraftForge.EVENT_BUS.register(new DroppingAchievementTrigger());
 		MinecraftForge.EVENT_BUS.register(new CraftingAchievementTrigger());
