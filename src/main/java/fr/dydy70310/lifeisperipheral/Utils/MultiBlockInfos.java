@@ -1,7 +1,6 @@
 package fr.dydy70310.lifeisperipheral.Utils;
 
 import java.awt.Rectangle;
-import java.awt.geom.Rectangle2D;
 
 import net.minecraft.util.EnumFacing;
 

@@ -29,58 +29,51 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-@Mod(modid = Reference.ModID,name = Reference.ModMame, version = Reference.ModVersion,dependencies = "required-after:ComputerCraft")
+@Mod(modid = Reference.ModID, name = Reference.ModMame, version = Reference.ModVersion, dependencies = "required-after:ComputerCraft")
 
-public class MainLIP{
-	@Instance(Reference.ModID) public static MainLIP instance;
+public class MainLIP {
+	@Instance(Reference.ModID)
+	public static MainLIP instance;
 	@SidedProxy(clientSide = Reference.ClientProxyClass, serverSide = Reference.ServeurProxyClass)
 	public static CommonProxy proxy;
 	public static Logger LOGGER;
-	public static CreativeTabs LifeIsPeripheral = new CreativeTabs("LifeIsPeripheral"){
-	
+	public static CreativeTabs LifeIsPeripheral = new CreativeTabs("LifeIsPeripheral") {
+
 		@SideOnly(Side.CLIENT)
-		public Item getTabIconItem(){
+		public Item getTabIconItem() {
 			Item items = Item.getItemFromBlock(BlockMods.EntityDetector);
 			return items;
 		}
-	}; 
-	
-	
-		
-	
-	@EventHandler	
-	public void preInit(FMLPreInitializationEvent event){
+	};
+
+	@EventHandler
+	public void preInit(FMLPreInitializationEvent event) {
 		LOGGER = event.getModLog();
 		ConfigHandler.init(event.getSuggestedConfigurationFile());
 	}
-	
-	@EventHandler	
-	public void init(FMLInitializationEvent event){
-		
+
+	@EventHandler
+	public void init(FMLInitializationEvent event) {
+
 		ComputerCraftAPI.registerPeripheralProvider(new BlockEntityDetector());
-		//ComputerCraftAPI.registerPeripheralProvider(new BlockAdvancedNoteBlock());
 		ComputerCraftAPI.registerPeripheralProvider(new BlockChatInterface());
 		ComputerCraftAPI.registerPeripheralProvider(new BlockWorldInterface());
 		ComputerCraftAPI.registerPeripheralProvider(new BlockInventoryInterface());
-		//ComputerCraftAPI.registerPeripheralProvider(new BlockEventSimulator());
-		//ComputerCraftAPI.registerPeripheralProvider(new BlockAdminChest());
-		
 		MinecraftForge.EVENT_BUS.register(new LifeIsPeripheralEventHandler());
 		AchievementPageHandler.registerPages();
 		MinecraftForge.EVENT_BUS.register(new DroppingAchievementTrigger());
 		MinecraftForge.EVENT_BUS.register(new CraftingAchievementTrigger());
-		
+
 		NetworkRegistry.INSTANCE.registerGuiHandler(this, new GUIHandler());
-		
+
 		BlockMods.init();
 		BlockMods.register();
 		proxy.registerRenders();
-		
+
 	}
-	
-	@EventHandler	
-	public void postInit(FMLPostInitializationEvent event){
-		
+
+	@EventHandler
+	public void postInit(FMLPostInitializationEvent event) {
 
 	}
 }
