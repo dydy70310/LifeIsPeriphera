@@ -426,7 +426,6 @@ public class TileEntityDetector extends TileEntity implements IPeripheral {
 						    			{	
 						    				distance = e2.getDistance(((Double)arguments[1]).intValue(), ((Double)arguments[2]).intValue(), ((Double)arguments[3]).intValue());
 						    			}
-						    			System.out.println(distance);
 							    		if(distance < range){
 							    			n +=1;
 							    			HashMap EntityInfos = new HashMap();
@@ -448,7 +447,6 @@ public class TileEntityDetector extends TileEntity implements IPeripheral {
 						    			{	
 						    				distance = e2.getDistance(((Double)arguments[1]).intValue(), ((Double)arguments[2]).intValue(), ((Double)arguments[3]).intValue());
 						    			}
-						    			System.out.println(distance);
 							    		if(distance < range){
 							    			n +=1;
 							    			HashMap EntityInfos = new HashMap();
