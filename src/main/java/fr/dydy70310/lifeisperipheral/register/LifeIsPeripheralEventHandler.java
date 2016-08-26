@@ -13,7 +13,9 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class LifeIsPeripheralEventHandler {
-
+	public static int lastId = (int) 0;
+	public static String lastMessage = "";
+ 
 	@SubscribeEvent
 	public void onServeurChatEvent(ServerChatEvent event){
 		if(event.message.length() >= 2){
@@ -26,8 +28,8 @@ public class LifeIsPeripheralEventHandler {
 				event.setCanceled(true);
 				
 				String[] s = event.message.split(" ");
-				if(s[0].length() > 7 || s[0].length() <= 2){
-					ChatComponentText text = new ChatComponentText(EnumChatFormatting.RED+"Usage : $$id message");
+				if(s[0].length() > 10 || s[0].length() <= 2){
+					ChatComponentText text = new ChatComponentText(EnumChatFormatting.RED+"Usage : $$ComputerID message");
 			        ChatStyle style = new ChatStyle();
 			        text.setChatStyle(style); 
 					event.player.addChatMessage(text);
@@ -36,9 +38,14 @@ public class LifeIsPeripheralEventHandler {
 					for (int i = 2;i < s[0].length();i++){
 						id = id + s[0].charAt(i);
 					}
-					System.out.println(id);
+					lastId = Integer.valueOf(id);
+					String Message = "";
+					for(int i = 1 ; i < s.length ; i++){
+						Message = Message + s[i] + " ";
+					}
+					lastMessage = Message;
+					TileChatInterface.onMessageId(lastId, event.username, lastMessage);
 				}
-				//startEvent(event.username,event.message);
 			}else{
 				startEvent(event.username,event.message);
 			}

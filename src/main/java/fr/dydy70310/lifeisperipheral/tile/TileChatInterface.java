@@ -12,6 +12,7 @@ import dan200.computercraft.shared.peripheral.common.ItemPeripheral;
 import dan200.computercraft.shared.peripheral.common.ItemPeripheralBase;
 import fr.dydy70310.lifeisperipheral.MainLIP;
 import fr.dydy70310.lifeisperipheral.Reference;
+import fr.dydy70310.lifeisperipheral.tile.TileEventSimulator.EventSimulatorRegistry;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
@@ -26,18 +27,17 @@ public class TileChatInterface extends TileEntity implements IPeripheral {
 
 	public static class ChatInterfaceRegistry {
 		public static HashMap<TileChatInterface, Boolean> chatInterfaces = new HashMap<TileChatInterface, Boolean>();
-		public static HashMap<IComputerAccess, Boolean> computers = new HashMap<IComputerAccess, Boolean>();
+		public static HashMap<IComputerAccess, HashMap> computers = new HashMap<IComputerAccess, HashMap>();
 	}
 	
 	
 	
 
 	
-	public static String[] methods = {"sendGlobalMessage","sendPlayerMessage","setName","getName","getMethods","setMessageId","getMessageId","sendMessageToID"};
+	public static String[] methods = {"sendGlobalMessage","sendPlayerMessage","setName","getName","getMethods","sendMessageToID"};
 	  public BlockPos pos;
 	  public World world;
 	  public String name = "[-DefaultComputerName-]";
-	  public Double messageId = (double) 16;
 	  private long ActualRate = 0;
 	  private long time = 0;
 	@Override
@@ -194,12 +194,6 @@ public class TileChatInterface extends TileEntity implements IPeripheral {
 						if (arguments[0].equals("getMethods")) {
 							return new Object[] {"getMethods(Name or Nothing)","getMethods(String or nil)","This function return informations about every function of this peripheral, if there no arguments, she returns every functions of the peripheral"};
 						}
-						if (arguments[0].equals("setMessageId")) {
-							return new Object[] {"setMessageId(Id)","setMessageId(int)","This function set the Id of the cumputer,the Id is used when you send a message like §§id Then only the chatInterface get the chat_message"};
-						}
-						if (arguments[0].equals("getMessageId")) {
-							return new Object[] {"getMessageId()","This function return the Id of the chatInterface"};
-						}
 					}
 					else
 					{
@@ -208,27 +202,39 @@ public class TileChatInterface extends TileEntity implements IPeripheral {
 				}
 				else
 				{
-					return new Object[] {"sendGlobalMessage","sendPlayerMessage","setName","getName","getMethods","setMessageId","getMessageId","","EVENTS :","- chat_message : When a player say something in the chat this event is triggered and return the player name and the message","Example : event, playerName, message = os.pullEvent('chat_message')","","INFORMATIONS : if you say something in the chat with ## before, this will never appear in the chat but it trigger the chat_message event"};
+					return new Object[] {"sendGlobalMessage","sendPlayerMessage","setName","getName","getMethods","","EVENTS :","- chat_message : When a player say something in the chat this event is triggered and return the player name and the message","Example : event, playerName, message = os.pullEvent('chat_message')","- player_join : When a player join this event is triger.It is the same usage that the last","- player_left : When a player left this event is triger.It is the same usage that the last","","INFORMATIONS : if you say something in the chat with ## before, this will never appear in the chat but it trigger the chat_message event. And if  you say something in the chat with $$ComputerID before the message it triger in the computer with the equals ComputerID.This message doesn't appeared in the chat"};
 				}
 			case 5:
-				if(arguments.length == 1){
-					this.messageId =  Double.valueOf((String) arguments[0]);
-					return new Object[] {this.messageId};
+				if(Reference.AllowComputerMessage.equals(true)){
+					if(arguments.length == 2){
+						if (!this.name.equals("")) {
+							if (arguments != null) {
+								if (arguments[0] != null && arguments[1] != null) {
+									onMessageId(Integer.valueOf((Integer) arguments[0]), "Computer" + String.valueOf(computer.getID()), String.valueOf((String) arguments[1]));
+									System.out.println("ChatInterface:[name='"+this.name+"',x="+this.pos.getX()+",y="+this.pos.getY()+",z="+this.pos.getZ()+"] "+arguments[0]);
+								}
+							}
+						}
+						return new Object[] {true};
+					}else{
+						return new Object[] {"sendGlobalMessage(ComputerId,Message)"};
+					}
 				}else{
-					return new Object[] {"setMessage(Name)"};
+					return new Object[] {false,"This method is now allowed on this server"};
 				}
-			case 6:
-				return new Object[] {this.messageId};
-		}
+			}	
 		return null;
 	}
-
 
 	
 	@Override
 	public void attach(IComputerAccess computer) {
+		HashMap infos = new HashMap();
+		infos.put("id", computer.getID());
+		infos.put("ChatInterface", this);
+		
 		ChatInterfaceRegistry.chatInterfaces.put(this, true);
-		ChatInterfaceRegistry.computers.put(computer, true);
+		ChatInterfaceRegistry.computers.put(computer, infos);
 	}
 	
 	@Override
@@ -259,6 +265,15 @@ public class TileChatInterface extends TileEntity implements IPeripheral {
 		for (IComputerAccess computer : ChatInterfaceRegistry.computers.keySet()) {
 			computer.queueEvent("player_left", new Object[] {sender});
 			
+		}
+	}
+	
+	public static void onMessageId(Integer id,String sender,String message) {
+		for (IComputerAccess computerEntry : ChatInterfaceRegistry.computers.keySet()) {
+			Integer registerID = (Integer)ChatInterfaceRegistry.computers.get(computerEntry).get("id");
+			if (id.equals(registerID)) {
+				computerEntry.queueEvent( "chat_message", new Object[] {sender,message});
+			}
 		}
 	}
 
