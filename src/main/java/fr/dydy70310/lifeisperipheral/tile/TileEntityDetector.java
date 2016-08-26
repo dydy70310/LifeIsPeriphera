@@ -4,7 +4,6 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 
 import dan200.computercraft.api.lua.ILuaContext;
@@ -35,7 +34,7 @@ public class TileEntityDetector extends TileEntity implements IPeripheral {
 		public static HashMap<IComputerAccess, Boolean> computers = new HashMap<IComputerAccess, Boolean>();
 	}
 	
-	public static String[] methods = { "getEntityList","getPlayerDetail","getMethods"};
+	public static String[] methods = { "getEntityListAdvanced","getEntityList","getPlayerDetail","getMethods"};
 	  public BlockPos pos;
 	  public World world;
 	  public WorldServer worldserveur;
@@ -56,7 +55,7 @@ public class TileEntityDetector extends TileEntity implements IPeripheral {
 		switch (method){
 		    case 0: 
 		    	if(arguments.length < 1){
-		    		return new Object[] {"getEntityList(Range,[X],[Y],[Z])"};
+		    		return new Object[] {"getEntityListAdvanced(Range,[X],[Y],[Z])"};
 		    	}else{
 		    		boolean Valide = false;
 		    		
@@ -387,10 +386,92 @@ public class TileEntityDetector extends TileEntity implements IPeripheral {
 			    			return new Object[] {"Max Range : " + Reference.Range};
 			    		}
 			    	}else{
-			    		return new Object[] {"getEntityList(Number,[Number],[Number],[Number])"};
+			    		return new Object[] {"getEntityListAdvanced(Number,[Number],[Number],[Number])"};
 			    	}
 		    	}
 		    case 1:
+		    	if (arguments.length < 1) {
+		    		
+		    	}
+		    	else {
+		    		boolean Valide = false;
+		    		
+		    		if (arguments.length >= 1 && arguments.length < 4 ) {
+		    			if (arguments[0] instanceof Double) {
+		    				Valide = true;
+		    			}
+		    		}
+		    		else if (arguments.length >= 4) {
+		    			if (arguments[0] instanceof Double && arguments[1] instanceof Double && arguments[2] instanceof Double && arguments[3] instanceof Double) {
+		    				Valide = true;
+		    			}
+		    		}
+		    		if (Valide == true) {
+			    		Double arg = (Double) arguments[0];
+			    		if ((arg - Reference.Range) <= 0){
+				    		Double range = (Double) arguments[0];
+					    	List list = this.world.loadedEntityList;
+					    	HashMap map = new HashMap();
+					    	if (list.size() != 0){
+					    		Integer n = 0;
+						    	for(int i = 0;i < list.size() ;i++){
+						    		Entity e = null;
+						    		if ((Entity) list.get(i) instanceof EntityLiving){
+						    			EntityLiving e2 = (EntityLiving) list.get(i);
+						    			Double distance = 0.0;
+						    			if (arguments.length >= 1 && arguments.length < 4) {
+						    				distance = e2.getDistance(pos.getX(), pos.getY(),pos.getZ());
+						    			}
+						    			else if (arguments.length >= 4)
+						    			{	
+						    				distance = e2.getDistance(((Double)arguments[1]).intValue(), ((Double)arguments[2]).intValue(), ((Double)arguments[3]).intValue());
+						    			}
+						    			System.out.println(distance);
+							    		if(distance < range){
+							    			n +=1;
+							    			HashMap EntityInfos = new HashMap();
+							    			EntityInfos.put("name", e2.getName().toString());
+							    			EntityInfos.put("type", e2.getClass().getSimpleName());
+							    			EntityInfos.put("x", e2.getPosition().getX());
+							    			EntityInfos.put("y", e2.getPosition().getY());
+							    			EntityInfos.put("z", e2.getPosition().getZ());
+							    			map.put(n, EntityInfos);
+							    		}
+						    		}
+						    		else if ((Entity) list.get(i) instanceof EntityPlayer){
+						    			EntityPlayer e2 = (EntityPlayer) list.get(i);
+						    			Double distance = 0.0;
+						    			if (arguments.length >= 1 && arguments.length < 4) {
+						    				distance = e2.getDistance(pos.getX(), pos.getY(),pos.getZ());
+						    			}
+						    			else if (arguments.length >= 4)
+						    			{	
+						    				distance = e2.getDistance(((Double)arguments[1]).intValue(), ((Double)arguments[2]).intValue(), ((Double)arguments[3]).intValue());
+						    			}
+						    			System.out.println(distance);
+							    		if(distance < range){
+							    			n +=1;
+							    			HashMap EntityInfos = new HashMap();
+							    			EntityInfos.put("name", e2.getName().toString());
+							    			EntityInfos.put("type", e2.getClass().getSimpleName());
+							    			EntityInfos.put("x", e2.getPosition().getX());
+							    			EntityInfos.put("y", e2.getPosition().getY());
+							    			EntityInfos.put("z", e2.getPosition().getZ());
+							    			map.put(n, EntityInfos);
+							    		}
+						    		}
+						    	}
+						    	return new Object[] {map};
+					    	}
+			    		}	
+			    		else
+			    		{
+			    			return new Object[] {"Max Range : " + Reference.Range};
+			    		}
+		    		}
+		    		
+		    	}
+		    case 2:
 		    	if(arguments.length < 1){
 		    		return new Object[] {"getPlayerDetail(PlayerName)"};
 		    	}
@@ -575,14 +656,17 @@ public class TileEntityDetector extends TileEntity implements IPeripheral {
 		    			return new Object[] {"getPlayerDetail(String)"};
 		    		}
 		    	}
-		    case 2:
+		    case 3:
 				if (arguments.length > 0) {
 					if (arguments[0] instanceof String) {
 						if (arguments[0].equals("getPlayerDetail")) {
 							return new Object[] {"getPlayerDetail(PlayerName)","getPlayerDetail(String)","This function return every informations about the player like health, armor etc..."};
 						}
 						if (arguments[0].equals("getEntityList")) {
-							return new Object[] {"getEntityList(Range,[X],[Y],[Z])","getEntityList(Number,[Number],[Number],[Number])","This function return every information about every entities like monsters and players in a radius, the coordinates are optional and allow you define the center of the radius"};
+							return new Object[] {"getEntityList(Range,[X],[Y],[Z])","getEntityList(Number,[Number],[Number],[Number])","This function return information about every entities like monsters and players in a radius, the coordinates are optional and allow you define the center of the radius"};
+						}
+						if (arguments[0].equals("getEntityListAdvanced")) {
+							return new Object[] {"getEntityListAdvanced(Range,[X],[Y],[Z])","getEntityListAdvanced(Number,[Number],[Number],[Number])","This function return every information about every entities like monsters and players in a radius, the coordinates are optional and allow you define the center of the radius"};
 						}
 						if (arguments[0].equals("getMethods")) {
 							return new Object[] {"getMethods(Name or Nothing)","getMethods(String or nil)","This function return informations about every function of this peripheral, if there no arguments, she returns every functions of the peripheral"};

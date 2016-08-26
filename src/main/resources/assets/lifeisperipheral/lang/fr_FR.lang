@@ -2,7 +2,7 @@ tile.EntityDetector.name=Entity Detector
 tile.AdvancedNoteBlock.name=Advanced NoteBlock
 tile.ChatInterface.name=Chat Interface
 tile.WorldInterface.name=World Interface
-tile.InvertoryInterface.name=Invertory Interface
+tile.InventoryInterface.name=Inventory Interface
 
 itemGroup.LifeIsPeripheral=Life Is Peripheral
 

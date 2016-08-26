@@ -7,9 +7,6 @@ import dan200.computercraft.api.lua.ILuaContext;
 import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
-import dan200.computercraft.shared.peripheral.common.IPeripheralTile;
-import dan200.computercraft.shared.peripheral.common.ItemPeripheral;
-import dan200.computercraft.shared.peripheral.common.ItemPeripheralBase;
 import fr.dydy70310.lifeisperipheral.MainLIP;
 import fr.dydy70310.lifeisperipheral.Reference;
 import net.minecraft.entity.player.EntityPlayer;
@@ -20,7 +17,6 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatStyle;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.client.config.GuiConfigEntries.ChatColorEntry;
 
 public class TileChatInterface extends TileEntity implements IPeripheral {
 
