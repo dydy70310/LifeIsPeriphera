@@ -16,7 +16,6 @@ public class ConfigHandler {
 	      Reference.Range = config.get("EntityDetector", "range", Reference.Range).getDouble();
 	      Reference.AllowServerMessage = config.get("ChatInterface", "AllowServerMessage", Reference.AllowServerMessage).getBoolean();
 	      Reference.AllowPlayerMessage = config.get("ChatInterface", "AllowPlayMeerssage", Reference.AllowPlayerMessage).getBoolean();
-	      Reference.AllowComputerMessage = config.get("ChatInterface", "AllowComputerMessage", Reference.AllowComputerMessage).getBoolean();
 	    }
 	    
 	    config.addCustomCategoryComment("EntityDetector", "Define the maximum radius for detection of entity in the EntityDetector");
@@ -25,7 +24,6 @@ public class ConfigHandler {
 	    Reference.Range = config.get("ChatInterface", "Rate", Reference.Rate).getDouble();
 	    Reference.AllowServerMessage = config.get("ChatInterface", "AllowServerMessage", Reference.AllowServerMessage).getBoolean();
 	    Reference.AllowPlayerMessage = config.get("ChatInterface", "AllowPlayerMessage", Reference.AllowPlayerMessage).getBoolean();
-	    Reference.AllowComputerMessage = config.get("ChatInterface", "AllowComputerMessage", Reference.AllowComputerMessage).getBoolean();
 	    
 	    config.save();
 	  }

@@ -4,6 +4,7 @@ import org.apache.logging.log4j.Logger;
 
 import dan200.computercraft.api.ComputerCraftAPI;
 import fr.dydy70310.lifeisperipheral.GUI.GUIHandler;
+import fr.dydy70310.lifeisperipheral.blocks.BlockAdvancedNoteBlock;
 import fr.dydy70310.lifeisperipheral.blocks.BlockChatInterface;
 import fr.dydy70310.lifeisperipheral.blocks.BlockEntityDetector;
 import fr.dydy70310.lifeisperipheral.blocks.BlockInventoryInterface;
@@ -56,8 +57,7 @@ public class MainLIP {
 	public void init(FMLInitializationEvent event) {
 
 		ComputerCraftAPI.registerPeripheralProvider(new BlockEntityDetector());
-		// ComputerCraftAPI.registerPeripheralProvider(new
-		// BlockAdvancedNoteBlock());
+		ComputerCraftAPI.registerPeripheralProvider(new BlockAdvancedNoteBlock());
 		ComputerCraftAPI.registerPeripheralProvider(new BlockChatInterface());
 		ComputerCraftAPI.registerPeripheralProvider(new BlockWorldInterface());
 		ComputerCraftAPI.registerPeripheralProvider(new BlockInventoryInterface());
