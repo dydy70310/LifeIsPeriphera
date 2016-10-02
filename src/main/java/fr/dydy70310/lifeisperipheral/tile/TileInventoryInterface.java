@@ -88,7 +88,7 @@ public class TileInventoryInterface extends TileEntity implements IPeripheral {
 										InventoryInfos = chest.getStackInSlot(j);
 									}
 									if(j >= 27){
-										InventoryInfos = chest2.getStackInSlot(chest.getSizeInventory() - j);
+										InventoryInfos = chest2.getStackInSlot(j - chest.getSizeInventory());
 									}
 				    				HashMap StackInfos = Util.getInfo(InventoryInfos,j + 1);
 					    			infoInv.put(j+1,StackInfos);
@@ -105,7 +105,7 @@ public class TileInventoryInterface extends TileEntity implements IPeripheral {
 										InventoryInfos = chest.getStackInSlot(j);
 									}
 									if(j > chest.getSizeInventory()){
-										InventoryInfos = chest2.getStackInSlot(chest.getSizeInventory() - j);
+										InventoryInfos = chest2.getStackInSlot(j - chest.getSizeInventory());
 									}
 				    				HashMap StackInfos = Util.getInfo(InventoryInfos,j + 1);
 					    			infoInv.put(j+1,StackInfos);
