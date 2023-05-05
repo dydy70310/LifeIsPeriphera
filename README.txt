@@ -1,3 +1,6 @@
+ARCHIVE MOD FOR MINECRAFT..
+THIS WAS AN ADDON FOR COMPUTER CRAFT
+
 -------------------------------------------
 Source installation information for modders
 -------------------------------------------
